@@ -1,0 +1,49 @@
+﻿@model MVC.ViewModels.CatalogViewModels.IndexViewModel
+
+@{
+    ViewData["Title"] = "Catalog";
+}
+
+<section class="section catalog">
+    <div class="container">
+        <h2 class="section__title">Catalog</h2>
+        <form asp-action="Index" asp-controller="Catalog" method="post" class="catalog__filters filters">
+            <div class="catalog__centeredDiv">
+                <ul>
+                    <li>
+                        <h3 class="filters__title">Filter by brand</h3>
+                        <select asp-for="@Model.BrandFilterApplied" asp-items="@Model.Brands">
+                            <option value="all">All brands</option>
+                        </select>
+                    </li>
+                    <li>
+                        <h3 class="filters__title">Filter by gender</h3>
+                        <select asp-for="@Model.TypesFilterApplied" asp-items="@Model.Types">
+                            <option value="all">All genders</option>
+                        </select>
+                    </li>
+                </ul>
+                <button class="button filters__button">Apply filtres</button>
+            </div>
+            
+        </form>
+        @if (Model.Products.Count() > 0)
+        {
+            <ul class="catalog__list">
+                @foreach (var catalogItem in Model.Products)
+                {
+                    <partial name="_product" model="catalogItem" />
+                }
+            </ul>
+
+            <partial name="_pagination" for="PaginationInfo" />
+        }
+        else
+        {
+            <div>
+                Sorry, we don't have any products matching your criteria :(
+            </div>
+        }
+    </div>
+</section>
+
